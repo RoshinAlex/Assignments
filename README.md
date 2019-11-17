@@ -1,9 +1,10 @@
 ---
 output: 
-    html_document: 
-      includes:
-       in_header: GA_Script.html
+    html_document:
+        includes:
+            in_header: GA_Script.html
 ---
+
 ## Assignments
 ####  - by Roshin Alex
 ***
