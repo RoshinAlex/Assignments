@@ -1,4 +1,6 @@
 ---
+
+title: "Assignments"
 output: 
     html_document:
         includes:
