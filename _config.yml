@@ -1,8 +1,4 @@
 theme: jekyll-theme-tactile
 google_analytics: G-YHXPVS8TFP
-output: 
-    html_document: 
-      includes:
-       in_header: GA_Script.html
 github:
   is_project_page: false
