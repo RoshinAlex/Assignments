@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Movies</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<script src="site_libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+<link href="site_libs/vis-4.20.1/vis.css" rel="stylesheet" />
+<script src="site_libs/vis-4.20.1/vis.min.js"></script>
+<script src="site_libs/visNetwork-binding-2.0.9/visNetwork.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-152731784-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-152731784-1');
+  gtag('config', 'G-YHXPVS8TFP');
+</script>
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">>>></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="Groceries-Association-Rules.html">Groceries</a>
+</li>
+<li>
+  <a href="Book-Association-Rules.html">Books</a>
+</li>
+<li>
+  <a href="Movies-Association-Rules.html">Movies</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Movies</h1>
+
+</div>
+
+
+<div id="data-preparation" class="section level2">
+<h2>Data Preparation</h2>
+<pre class="r"><code>library(arules)
+library(arulesViz)</code></pre>
+<pre class="r"><code>movies &lt;- read.csv(&#39;C:/Users/Alex/Downloads/my_movies.csv&#39;)
+
+class(movies) </code></pre>
+<pre><code>## [1] &quot;data.frame&quot;</code></pre>
+<pre class="r"><code>str(movies)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    10 obs. of  15 variables:
+##  $ V1           : Factor w/ 4 levels &quot;Gladiator&quot;,&quot;Harry Potter1&quot;,..: 4 1 3 1 1 1 2 1 1 4
+##  $ V2           : Factor w/ 5 levels &quot;Harry Potter2&quot;,..: 3 5 4 5 5 5 1 5 5 2
+##  $ V3           : Factor w/ 5 levels &quot;&quot;,&quot;Braveheart&quot;,..: 4 2 1 5 5 5 1 1 5 3
+##  $ V4           : Factor w/ 2 levels &quot;&quot;,&quot;Green Mile&quot;: 2 1 1 1 1 1 1 1 1 2
+##  $ V5           : Factor w/ 2 levels &quot;&quot;,&quot;LOTR2&quot;: 2 1 1 1 1 1 1 1 1 1
+##  $ Sixth.Sense  : int  1 0 0 1 1 1 0 0 1 1
+##  $ Gladiator    : int  0 1 0 1 1 1 0 1 1 1
+##  $ LOTR1        : int  1 0 1 0 0 0 0 0 0 0
+##  $ Harry.Potter1: int  1 0 0 0 0 0 1 0 0 0
+##  $ Patriot      : int  0 1 0 1 1 1 0 1 1 0
+##  $ LOTR2        : int  1 0 1 0 0 0 0 0 0 0
+##  $ Harry.Potter2: int  0 0 0 0 0 0 1 0 0 0
+##  $ LOTR         : int  0 0 0 0 0 0 0 0 0 1
+##  $ Braveheart   : int  0 1 0 0 0 0 0 0 0 0
+##  $ Green.Mile   : int  1 0 0 0 0 0 0 0 0 1</code></pre>
+<pre class="r"><code>head(movies, n=10)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["V1"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["V2"],"name":[2],"type":["fctr"],"align":["left"]},{"label":["V3"],"name":[3],"type":["fctr"],"align":["left"]},{"label":["V4"],"name":[4],"type":["fctr"],"align":["left"]},{"label":["V5"],"name":[5],"type":["fctr"],"align":["left"]},{"label":["Sixth.Sense"],"name":[6],"type":["int"],"align":["right"]},{"label":["Gladiator"],"name":[7],"type":["int"],"align":["right"]},{"label":["LOTR1"],"name":[8],"type":["int"],"align":["right"]},{"label":["Harry.Potter1"],"name":[9],"type":["int"],"align":["right"]},{"label":["Patriot"],"name":[10],"type":["int"],"align":["right"]},{"label":["LOTR2"],"name":[11],"type":["int"],"align":["right"]},{"label":["Harry.Potter2"],"name":[12],"type":["int"],"align":["right"]},{"label":["LOTR"],"name":[13],"type":["int"],"align":["right"]},{"label":["Braveheart"],"name":[14],"type":["int"],"align":["right"]},{"label":["Green.Mile"],"name":[15],"type":["int"],"align":["right"]}],"data":[{"1":"Sixth Sense","2":"LOTR1","3":"Harry Potter1","4":"Green Mile","5":"LOTR2","6":"1","7":"0","8":"1","9":"1","10":"0","11":"1","12":"0","13":"0","14":"0","15":"1","_rn_":"1"},{"1":"Gladiator","2":"Patriot","3":"Braveheart","4":"","5":"","6":"0","7":"1","8":"0","9":"0","10":"1","11":"0","12":"0","13":"0","14":"1","15":"0","_rn_":"2"},{"1":"LOTR1","2":"LOTR2","3":"","4":"","5":"","6":"0","7":"0","8":"1","9":"0","10":"0","11":"1","12":"0","13":"0","14":"0","15":"0","_rn_":"3"},{"1":"Gladiator","2":"Patriot","3":"Sixth Sense","4":"","5":"","6":"1","7":"1","8":"0","9":"0","10":"1","11":"0","12":"0","13":"0","14":"0","15":"0","_rn_":"4"},{"1":"Gladiator","2":"Patriot","3":"Sixth Sense","4":"","5":"","6":"1","7":"1","8":"0","9":"0","10":"1","11":"0","12":"0","13":"0","14":"0","15":"0","_rn_":"5"},{"1":"Gladiator","2":"Patriot","3":"Sixth Sense","4":"","5":"","6":"1","7":"1","8":"0","9":"0","10":"1","11":"0","12":"0","13":"0","14":"0","15":"0","_rn_":"6"},{"1":"Harry Potter1","2":"Harry Potter2","3":"","4":"","5":"","6":"0","7":"0","8":"0","9":"1","10":"0","11":"0","12":"1","13":"0","14":"0","15":"0","_rn_":"7"},{"1":"Gladiator","2":"Patriot","3":"","4":"","5":"","6":"0","7":"1","8":"0","9":"0","10":"1","11":"0","12":"0","13":"0","14":"0","15":"0","_rn_":"8"},{"1":"Gladiator","2":"Patriot","3":"Sixth Sense","4":"","5":"","6":"1","7":"1","8":"0","9":"0","10":"1","11":"0","12":"0","13":"0","14":"0","15":"0","_rn_":"9"},{"1":"Sixth Sense","2":"LOTR","3":"Gladiator","4":"Green Mile","5":"","6":"1","7":"1","8":"0","9":"0","10":"0","11":"0","12":"0","13":"1","14":"0","15":"1","_rn_":"10"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>This data we imported is in a mixed format (can be seen as transactions and matrix).<br />
+We need to extract the data we want via slicing. The extracted data will be converted to itemMatrix and we’ll work with that moving forward.</p>
+<pre class="r"><code>movies &lt;- as(as.matrix(movies[,6:15]), &quot;itemMatrix&quot;)
+
+inspect(head(movies))</code></pre>
+<pre><code>##     items                                             
+## [1] {Sixth.Sense,LOTR1,Harry.Potter1,LOTR2,Green.Mile}
+## [2] {Gladiator,Patriot,Braveheart}                    
+## [3] {LOTR1,LOTR2}                                     
+## [4] {Sixth.Sense,Gladiator,Patriot}                   
+## [5] {Sixth.Sense,Gladiator,Patriot}                   
+## [6] {Sixth.Sense,Gladiator,Patriot}</code></pre>
+<pre class="r"><code>itemFrequencyPlot(movies) # item frequency plot</code></pre>
+<p><img src="Movies-Association-Rules_files/figure-html/unnamed-chunk-4-1.png" width="864" /></p>
+</div>
+<div id="rule-generation-plots" class="section level2">
+<h2>Rule Generation &amp; Plots</h2>
+<p>We’ll use apriori algorithm with support=0.02, confidence=0.5 and minlen=3</p>
+<pre class="r"><code>mov_rule &lt;- apriori(movies, 
+                    parameter = list(support=0.02, confidence=0.5, minlen=3))</code></pre>
+<pre><code>## Apriori
+## 
+## Parameter specification:
+##  confidence minval smax arem  aval originalSupport maxtime support minlen
+##         0.5    0.1    1 none FALSE            TRUE       5    0.02      3
+##  maxlen target   ext
+##      10  rules FALSE
+## 
+## Algorithmic control:
+##  filter tree heap memopt load sort verbose
+##     0.1 TRUE TRUE  FALSE TRUE    2    TRUE
+## 
+## Absolute minimum support count: 0 
+## 
+## set item appearances ...[0 item(s)] done [0.00s].
+## set transactions ...[10 item(s), 10 transaction(s)] done [0.00s].
+## sorting and recoding items ... [10 item(s)] done [0.00s].
+## creating transaction tree ... done [0.00s].
+## checking subsets of size 1 2 3 4 5 done [0.00s].
+## writing ... [74 rule(s)] done [0.00s].
+## creating S4 object  ... done [0.00s].</code></pre>
+<pre class="r"><code>mov_rule # we get 74 rules</code></pre>
+<pre><code>## set of 74 rules</code></pre>
+<pre class="r"><code>inspect(head(sort(mov_rule, by=&quot;lift&quot;), n=10)) # view top 10 rules sorted by Lift</code></pre>
+<pre><code>##      lhs                                   rhs             support confidence
+## [1]  {Gladiator,Green.Mile}             =&gt; {LOTR}          0.1     1.0       
+## [2]  {Sixth.Sense,Gladiator,Green.Mile} =&gt; {LOTR}          0.1     1.0       
+## [3]  {Gladiator,LOTR}                   =&gt; {Green.Mile}    0.1     1.0       
+## [4]  {Sixth.Sense,LOTR}                 =&gt; {Green.Mile}    0.1     1.0       
+## [5]  {Sixth.Sense,Green.Mile}           =&gt; {LOTR}          0.1     0.5       
+## [6]  {LOTR1,Harry.Potter1}              =&gt; {LOTR2}         0.1     1.0       
+## [7]  {Harry.Potter1,LOTR2}              =&gt; {LOTR1}         0.1     1.0       
+## [8]  {LOTR1,Harry.Potter1}              =&gt; {Green.Mile}    0.1     1.0       
+## [9]  {LOTR1,Green.Mile}                 =&gt; {Harry.Potter1} 0.1     1.0       
+## [10] {Harry.Potter1,Green.Mile}         =&gt; {LOTR1}         0.1     1.0       
+##      lift count
+## [1]  10   1    
+## [2]  10   1    
+## [3]   5   1    
+## [4]   5   1    
+## [5]   5   1    
+## [6]   5   1    
+## [7]   5   1    
+## [8]   5   1    
+## [9]   5   1    
+## [10]  5   1</code></pre>
+<pre class="r"><code>plot(mov_rule)</code></pre>
+<pre><code>## To reduce overplotting, jitter is added! Use jitter = 0 to prevent jitter.</code></pre>
+<p><img src="Movies-Association-Rules_files/figure-html/unnamed-chunk-6-1.png" width="864" /></p>
+<pre class="r"><code>plot(mov_rule, method=&#39;grouped&#39;) # Grouped Plot</code></pre>
+<p><img src="Movies-Association-Rules_files/figure-html/unnamed-chunk-6-2.png" width="864" /></p>
+<pre class="r"><code>plot(mov_rule, 
+     method=&#39;graph&#39;,  
+     measure=&#39;lift&#39;,
+     engine=&#39;htmlwidget&#39;, 
+     control=list(max=20))  # Graph Plot for top 20 rules</code></pre>
+<pre><code>## Warning: Too many rules supplied. Only plotting the best 20 rules using lift
+## (change control parameter max if needed)</code></pre>
+<div id="htmlwidget-7a582c63d07b5e9603f0" style="width:864px;height:691.2px;" class="visNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-7a582c63d07b5e9603f0">{"x":{"nodes":{"id":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27],"label":["LOTR1","LOTR2","Green.Mile","Harry.Potter1","Sixth.Sense","Gladiator","LOTR","rule 1","rule 2","rule 3","rule 4","rule 5","rule 6","rule 7","rule 8","rule 9","rule 10","rule 11","rule 12","rule 13","rule 14","rule 15","rule 16","rule 17","rule 18","rule 19","rule 20"],"group":["item","item","item","item","item","item","item","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule"],"value":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,100,100],"color":["#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#EEDCDC","#EEDCDC","#EEDCDC","#EEDCDC","#EEDCDC","#EEDCDC","#EEDCDC","#EEDCDC","#EEDCDC","#EEDCDC","#EEDCDC","#EEDCDC","#EEDCDC","#EEDCDC","#EEDCDC","#EEDCDC","#EEDCDC","#EEDCDC","#EE1B1B","#EE1B1B"],"title":["LOTR1","LOTR2","Green.Mile","Harry.Potter1","Sixth.Sense","Gladiator","LOTR","<B>[1]<\/B><BR><B>{LOTR1,<BR>&nbsp;&nbsp;LOTR2,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{Harry.Potter1}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 4","<B>[2]<\/B><BR><B>{Harry.Potter1,<BR>&nbsp;&nbsp;LOTR2,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR1}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 4","<B>[3]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;LOTR1,<BR>&nbsp;&nbsp;Harry.Potter1}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR2}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 4","<B>[4]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;LOTR1,<BR>&nbsp;&nbsp;LOTR2}<\/B><BR>&nbsp;&nbsp; => <B>{Harry.Potter1}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 4","<B>[5]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;Harry.Potter1,<BR>&nbsp;&nbsp;LOTR2}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR1}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 4","<B>[6]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;LOTR1,<BR>&nbsp;&nbsp;Harry.Potter1}<\/B><BR>&nbsp;&nbsp; => <B>{Green.Mile}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 4","<B>[7]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;LOTR1,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{Harry.Potter1}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 4","<B>[8]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;Harry.Potter1,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR1}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 4","<B>[9]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;LOTR1,<BR>&nbsp;&nbsp;LOTR2}<\/B><BR>&nbsp;&nbsp; => <B>{Green.Mile}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 4","<B>[10]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;LOTR1,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR2}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 4","<B>[11]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;LOTR2,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR1}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 4","<B>[12]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;Harry.Potter1,<BR>&nbsp;&nbsp;LOTR2}<\/B><BR>&nbsp;&nbsp; => <B>{Green.Mile}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 4","<B>[13]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;Harry.Potter1,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR2}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 4","<B>[14]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;LOTR2,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{Harry.Potter1}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 4","<B>[15]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;LOTR1,<BR>&nbsp;&nbsp;Harry.Potter1,<BR>&nbsp;&nbsp;LOTR2}<\/B><BR>&nbsp;&nbsp; => <B>{Green.Mile}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 5","<B>[16]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;LOTR1,<BR>&nbsp;&nbsp;Harry.Potter1,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR2}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 5","<B>[17]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;LOTR1,<BR>&nbsp;&nbsp;LOTR2,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{Harry.Potter1}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 5","<B>[18]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;Harry.Potter1,<BR>&nbsp;&nbsp;LOTR2,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR1}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 5","<B>[19]<\/B><BR><B>{Gladiator,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 10<BR>count = 1<BR>order = 3","<B>[20]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;Gladiator,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 10<BR>count = 1<BR>order = 4"],"shape":["box","box","box","box","box","box","box","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle"],"x":[-0.629058688949682,-0.506115339503246,-0.187631016588481,-0.400645622617768,-0.374140819245712,0.765411994112428,1,-0.546073687550929,-0.621659681658864,-0.960267769012844,-0.848040407532277,-1,-0.0197819279844867,-0.381481073228592,-0.275448698919706,-0.837794275051075,-0.67779287610506,-0.627611542711501,0.149973466426565,0.040071458327638,0.01654072184503,-0.302941760129953,-0.369881888789236,-0.790581227517982,-0.172654766418309,0.610325176601683,0.35853353587617],"y":[0.423780155972944,0.430053451838139,0.231123521787259,0.518159513153803,0.318523279549323,-1,-0.679492710258018,1,-0.0119990545605343,0.641668183054894,0.891366829138334,0.380293775050694,0.478310273432465,-0.221614530249124,0.99942256317819,-0.0366187264120184,0.750173297689541,-0.234134094105865,0.462140137249497,0.785258211149849,0.0779430847896565,-0.0232953997796503,0.814679741287387,0.216264940229585,0.732946860025162,-0.482045070374618,-0.38156524313605]},"edges":{"from":[1,2,3,4,2,3,5,1,4,5,1,2,5,4,2,5,1,4,5,1,3,5,4,3,5,1,2,5,1,3,5,2,3,5,4,2,5,4,3,5,2,3,5,1,4,2,5,1,4,3,5,1,2,3,5,4,2,3,6,3,5,6,3,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27],"to":[8,8,8,9,9,9,10,10,10,11,11,11,12,12,12,13,13,13,14,14,14,15,15,15,16,16,16,17,17,17,18,18,18,19,19,19,20,20,20,21,21,21,22,22,22,22,23,23,23,23,24,24,24,24,25,25,25,25,26,26,27,27,27,4,1,2,4,1,3,4,1,3,2,1,3,2,4,3,2,4,1,7,7],"arrows":["to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","scaling":{"label":{"enabled":true}},"physics":false},"manipulation":{"enabled":false},"edges":{"smooth":false},"physics":{"stabilization":false},"interaction":{"hover":true}},"groups":["item","rule"],"width":null,"height":null,"idselection":{"enabled":true,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":null,"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","igraphlayout":{"type":"square"},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);","highlight":{"enabled":true,"hoverNearest":true,"degree":1,"algorithm":"all","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":false,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"}},"evals":[],"jsHooks":[]}</script>
+<p><strong>Rule 2</strong></p>
+<p>New set of rules with support=0.05, confidence=0.8 and minlen=4</p>
+<pre class="r"><code>mov_rule2 &lt;- apriori(movies, parameter = list(support=0.05, confidence=0.8, minlen=4))</code></pre>
+<pre><code>## Apriori
+## 
+## Parameter specification:
+##  confidence minval smax arem  aval originalSupport maxtime support minlen
+##         0.8    0.1    1 none FALSE            TRUE       5    0.05      4
+##  maxlen target   ext
+##      10  rules FALSE
+## 
+## Algorithmic control:
+##  filter tree heap memopt load sort verbose
+##     0.1 TRUE TRUE  FALSE TRUE    2    TRUE
+## 
+## Absolute minimum support count: 0 
+## 
+## set item appearances ...[0 item(s)] done [0.00s].
+## set transactions ...[10 item(s), 10 transaction(s)] done [0.00s].
+## sorting and recoding items ... [10 item(s)] done [0.00s].
+## creating transaction tree ... done [0.00s].
+## checking subsets of size 1 2 3 4 5 done [0.00s].
+## writing ... [29 rule(s)] done [0.00s].
+## creating S4 object  ... done [0.00s].</code></pre>
+<pre class="r"><code>mov_rule2 # We get 29 rules</code></pre>
+<pre><code>## set of 29 rules</code></pre>
+<pre class="r"><code>inspect(head(sort(mov_rule2, by=&quot;lift&quot;), n=10)) # View top 10 rules based on Lift</code></pre>
+<pre><code>##      lhs                                   rhs             support confidence
+## [1]  {Sixth.Sense,Gladiator,Green.Mile} =&gt; {LOTR}          0.1     1         
+## [2]  {Sixth.Sense,Gladiator,LOTR}       =&gt; {Green.Mile}    0.1     1         
+## [3]  {LOTR1,Harry.Potter1,LOTR2}        =&gt; {Green.Mile}    0.1     1         
+## [4]  {LOTR1,Harry.Potter1,Green.Mile}   =&gt; {LOTR2}         0.1     1         
+## [5]  {LOTR1,LOTR2,Green.Mile}           =&gt; {Harry.Potter1} 0.1     1         
+## [6]  {Harry.Potter1,LOTR2,Green.Mile}   =&gt; {LOTR1}         0.1     1         
+## [7]  {Sixth.Sense,LOTR1,Harry.Potter1}  =&gt; {LOTR2}         0.1     1         
+## [8]  {Sixth.Sense,LOTR1,LOTR2}          =&gt; {Harry.Potter1} 0.1     1         
+## [9]  {Sixth.Sense,Harry.Potter1,LOTR2}  =&gt; {LOTR1}         0.1     1         
+## [10] {Sixth.Sense,LOTR1,Harry.Potter1}  =&gt; {Green.Mile}    0.1     1         
+##      lift count
+## [1]  10   1    
+## [2]   5   1    
+## [3]   5   1    
+## [4]   5   1    
+## [5]   5   1    
+## [6]   5   1    
+## [7]   5   1    
+## [8]   5   1    
+## [9]   5   1    
+## [10]  5   1</code></pre>
+<pre class="r"><code>plot(mov_rule2, 
+     method=&#39;graph&#39;, 
+     measure=&#39;lift&#39; , 
+     engine=&#39;htmlwidget&#39;, 
+     control=list(max=30)) # Graph plot for all 29 rules</code></pre>
+<div id="htmlwidget-00d8694b421bee2009a4" style="width:864px;height:691.2px;" class="visNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-00d8694b421bee2009a4">{"x":{"nodes":{"id":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36],"label":["Gladiator","LOTR","Green.Mile","Sixth.Sense","LOTR1","Harry.Potter1","LOTR2","rule 1","rule 2","rule 3","rule 4","rule 5","rule 6","rule 7","rule 8","rule 9","rule 10","rule 11","rule 12","rule 13","rule 14","rule 15","rule 16","rule 17","rule 18","rule 19","rule 20","rule 21","rule 22","rule 23","rule 24","rule 25","rule 26","rule 27","rule 28","rule 29"],"group":["item","item","item","item","item","item","item","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule"],"value":[1,1,1,1,1,1,1,3.75,1,42.25,100,42.25,42.25,42.25,42.25,3.75,42.25,42.25,42.25,3.75,42.25,42.25,42.25,3.75,42.25,42.25,42.25,3.75,42.25,42.25,42.25,3.75,42.25,42.25,42.25,42.25],"color":["#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#EED7D7","#EEDCDC","#EEA4A4","#EE1B1B","#EEA4A4","#EEA4A4","#EEA4A4","#EEA4A4","#EED7D7","#EEA4A4","#EEA4A4","#EEA4A4","#EED7D7","#EEA4A4","#EEA4A4","#EEA4A4","#EED7D7","#EEA4A4","#EEA4A4","#EEA4A4","#EED7D7","#EEA4A4","#EEA4A4","#EEA4A4","#EED7D7","#EEA4A4","#EEA4A4","#EEA4A4","#EEA4A4"],"title":["Gladiator","LOTR","Green.Mile","Sixth.Sense","LOTR1","Harry.Potter1","LOTR2","<B>[1]<\/B><BR><B>{Gladiator,<BR>&nbsp;&nbsp;LOTR,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{Sixth.Sense}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 1.67<BR>count = 1<BR>order = 4","<B>[2]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;LOTR,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{Gladiator}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 1.43<BR>count = 1<BR>order = 4","<B>[3]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;Gladiator,<BR>&nbsp;&nbsp;LOTR}<\/B><BR>&nbsp;&nbsp; => <B>{Green.Mile}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 4","<B>[4]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;Gladiator,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 10<BR>count = 1<BR>order = 4","<B>[5]<\/B><BR><B>{LOTR1,<BR>&nbsp;&nbsp;Harry.Potter1,<BR>&nbsp;&nbsp;LOTR2}<\/B><BR>&nbsp;&nbsp; => <B>{Green.Mile}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 4","<B>[6]<\/B><BR><B>{LOTR1,<BR>&nbsp;&nbsp;Harry.Potter1,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR2}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 4","<B>[7]<\/B><BR><B>{LOTR1,<BR>&nbsp;&nbsp;LOTR2,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{Harry.Potter1}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 4","<B>[8]<\/B><BR><B>{Harry.Potter1,<BR>&nbsp;&nbsp;LOTR2,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR1}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 4","<B>[9]<\/B><BR><B>{LOTR1,<BR>&nbsp;&nbsp;Harry.Potter1,<BR>&nbsp;&nbsp;LOTR2}<\/B><BR>&nbsp;&nbsp; => <B>{Sixth.Sense}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 1.67<BR>count = 1<BR>order = 4","<B>[10]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;LOTR1,<BR>&nbsp;&nbsp;Harry.Potter1}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR2}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 4","<B>[11]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;LOTR1,<BR>&nbsp;&nbsp;LOTR2}<\/B><BR>&nbsp;&nbsp; => <B>{Harry.Potter1}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 4","<B>[12]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;Harry.Potter1,<BR>&nbsp;&nbsp;LOTR2}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR1}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 4","<B>[13]<\/B><BR><B>{LOTR1,<BR>&nbsp;&nbsp;Harry.Potter1,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{Sixth.Sense}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 1.67<BR>count = 1<BR>order = 4","<B>[14]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;LOTR1,<BR>&nbsp;&nbsp;Harry.Potter1}<\/B><BR>&nbsp;&nbsp; => <B>{Green.Mile}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 4","<B>[15]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;LOTR1,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{Harry.Potter1}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 4","<B>[16]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;Harry.Potter1,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR1}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 4","<B>[17]<\/B><BR><B>{LOTR1,<BR>&nbsp;&nbsp;LOTR2,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{Sixth.Sense}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 1.67<BR>count = 1<BR>order = 4","<B>[18]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;LOTR1,<BR>&nbsp;&nbsp;LOTR2}<\/B><BR>&nbsp;&nbsp; => <B>{Green.Mile}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 4","<B>[19]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;LOTR1,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR2}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 4","<B>[20]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;LOTR2,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR1}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 4","<B>[21]<\/B><BR><B>{Harry.Potter1,<BR>&nbsp;&nbsp;LOTR2,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{Sixth.Sense}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 1.67<BR>count = 1<BR>order = 4","<B>[22]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;Harry.Potter1,<BR>&nbsp;&nbsp;LOTR2}<\/B><BR>&nbsp;&nbsp; => <B>{Green.Mile}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 4","<B>[23]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;Harry.Potter1,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR2}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 4","<B>[24]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;LOTR2,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{Harry.Potter1}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 4","<B>[25]<\/B><BR><B>{LOTR1,<BR>&nbsp;&nbsp;Harry.Potter1,<BR>&nbsp;&nbsp;LOTR2,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{Sixth.Sense}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 1.67<BR>count = 1<BR>order = 5","<B>[26]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;LOTR1,<BR>&nbsp;&nbsp;Harry.Potter1,<BR>&nbsp;&nbsp;LOTR2}<\/B><BR>&nbsp;&nbsp; => <B>{Green.Mile}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 5","<B>[27]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;LOTR1,<BR>&nbsp;&nbsp;Harry.Potter1,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR2}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 5","<B>[28]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;LOTR1,<BR>&nbsp;&nbsp;LOTR2,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{Harry.Potter1}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 5","<B>[29]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;Harry.Potter1,<BR>&nbsp;&nbsp;LOTR2,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR1}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 5"],"shape":["box","box","box","box","box","box","box","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle"],"x":[0.670655854474121,0.296261905656961,0.11856492558968,0.0342622463719982,0.0706998820273805,-0.116325648406816,-0.216756418322694,0.73407257304392,-0.0476004630532669,0.21326473378719,0.474942833646449,-0.761805539482666,-0.830999205428027,0.45070119607032,-0.139824738282292,-0.445748147328727,-0.527995257088895,0.136068975840458,-0.975282656301469,-0.326108728235983,1,0.917641700928091,0.873071704803243,0.527175863821507,-0.611895101217455,0.368589127110245,0.838812028101639,-1,-0.949177910625615,0.571608315284992,-0.719451101982768,-0.584501530998666,0.512892545535975,0.0914280466502158,-0.12573989630168,0.628609123008451],"y":[-0.962214358775766,-1,0.194532256196869,0.24316852932063,0.529215304109111,0.45866273283366,0.543530797615324,-0.491732887534982,-0.581523429016065,-0.545676187978042,-0.52694760869619,0.766275738130446,0.519787966828269,0.922699447939245,0.943160507142925,0.977306200550784,0.824722297095041,1,0.655022761405853,-0.0974877234233289,0.452105013671899,0.292873920675914,0.115692854255237,0.747451154611167,0.136667240131902,-0.0250272187744048,0.693836097952239,0.337790092308291,0.161100578889796,0.137120319629167,-0.0294401395937148,0.336060689408497,0.420880015756294,0.749268390687359,0.0371980758200623,0.563793342105521]},"edges":{"from":[1,2,3,4,2,3,4,1,2,4,1,3,5,6,7,5,6,3,5,7,3,6,7,3,5,6,7,4,5,6,4,5,7,4,6,7,5,6,3,4,5,6,4,5,3,4,6,3,5,7,3,4,5,7,4,5,3,4,7,3,6,7,3,4,6,7,4,6,3,4,7,3,5,6,7,3,4,5,6,7,4,5,6,3,4,5,7,3,4,6,7,3,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36],"to":[8,8,8,9,9,9,10,10,10,11,11,11,12,12,12,13,13,13,14,14,14,15,15,15,16,16,16,17,17,17,18,18,18,19,19,19,20,20,20,21,21,21,22,22,22,23,23,23,24,24,24,25,25,25,26,26,26,27,27,27,28,28,28,29,29,29,30,30,30,31,31,31,32,32,32,32,33,33,33,33,34,34,34,34,35,35,35,35,36,36,36,36,4,1,3,2,3,7,6,5,4,7,6,5,4,3,6,5,4,3,7,5,4,3,7,6,4,3,7,6,5],"arrows":["to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","scaling":{"label":{"enabled":true}},"physics":false},"manipulation":{"enabled":false},"edges":{"smooth":false},"physics":{"stabilization":false},"interaction":{"hover":true}},"groups":["item","rule"],"width":null,"height":null,"idselection":{"enabled":true,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":null,"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","igraphlayout":{"type":"square"},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);","highlight":{"enabled":true,"hoverNearest":true,"degree":1,"algorithm":"all","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":false,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"}},"evals":[],"jsHooks":[]}</script>
+<p><strong>Rule 3</strong></p>
+<p>We’ll eliminate a few rules by removing subsets in <em>Rule 1</em> using Rule 2</p>
+<pre class="r"><code>subset &lt;- which(colSums(is.subset(mov_rule2, mov_rule)) &gt; 1)
+
+
+
+mov_rule3 &lt;- mov_rule[-subset] # we get 45 rules
+
+inspect(head(sort(mov_rule3, by=&quot;lift&quot;), n=10))  # View top 10 rules based on Lift</code></pre>
+<pre><code>##      lhs                           rhs             support confidence lift
+## [1]  {Gladiator,Green.Mile}     =&gt; {LOTR}          0.1     1.0        10  
+## [2]  {Gladiator,LOTR}           =&gt; {Green.Mile}    0.1     1.0         5  
+## [3]  {Sixth.Sense,LOTR}         =&gt; {Green.Mile}    0.1     1.0         5  
+## [4]  {Sixth.Sense,Green.Mile}   =&gt; {LOTR}          0.1     0.5         5  
+## [5]  {LOTR1,Harry.Potter1}      =&gt; {LOTR2}         0.1     1.0         5  
+## [6]  {Harry.Potter1,LOTR2}      =&gt; {LOTR1}         0.1     1.0         5  
+## [7]  {LOTR1,Harry.Potter1}      =&gt; {Green.Mile}    0.1     1.0         5  
+## [8]  {LOTR1,Green.Mile}         =&gt; {Harry.Potter1} 0.1     1.0         5  
+## [9]  {Harry.Potter1,Green.Mile} =&gt; {LOTR1}         0.1     1.0         5  
+## [10] {Sixth.Sense,LOTR1}        =&gt; {Harry.Potter1} 0.1     1.0         5  
+##      count
+## [1]  1    
+## [2]  1    
+## [3]  1    
+## [4]  1    
+## [5]  1    
+## [6]  1    
+## [7]  1    
+## [8]  1    
+## [9]  1    
+## [10] 1</code></pre>
+<pre class="r"><code>plot(mov_rule3)</code></pre>
+<pre><code>## To reduce overplotting, jitter is added! Use jitter = 0 to prevent jitter.</code></pre>
+<p><img src="Movies-Association-Rules_files/figure-html/unnamed-chunk-8-1.png" width="864" /></p>
+<pre class="r"><code>plot(mov_rule3, method=&#39;grouped&#39;) # Grouped Plot</code></pre>
+<p><img src="Movies-Association-Rules_files/figure-html/unnamed-chunk-8-2.png" width="864" /></p>
+<pre class="r"><code>## Don&#39;t forget to zoom in and out of this graph
+plot(mov_rule3, 
+     method=&#39;graph&#39;, 
+     engine=&#39;htmlwidget&#39;, 
+     control=list(max=50)) # Graph plot for all 45 rules</code></pre>
+<div id="htmlwidget-a0ce0e41a762062f45e4" style="width:864px;height:691.2px;" class="visNetwork html-widget"></div>
+<script type="application/json" data-for="htmlwidget-a0ce0e41a762062f45e4">{"x":{"nodes":{"id":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54],"label":["Patriot","Braveheart","Gladiator","LOTR","Green.Mile","Sixth.Sense","LOTR1","Harry.Potter1","LOTR2","rule 1","rule 2","rule 3","rule 4","rule 5","rule 6","rule 7","rule 8","rule 9","rule 10","rule 11","rule 12","rule 13","rule 14","rule 15","rule 16","rule 17","rule 18","rule 19","rule 20","rule 21","rule 22","rule 23","rule 24","rule 25","rule 26","rule 27","rule 28","rule 29","rule 30","rule 31","rule 32","rule 33","rule 34","rule 35","rule 36","rule 37","rule 38","rule 39","rule 40","rule 41","rule 42","rule 43","rule 44","rule 45"],"group":["item","item","item","item","item","item","item","item","item","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule","rule"],"value":[1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,100,100,100],"color":["#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#CBD2FC","#EED2D2","#EECDCD","#EED2D2","#EE9D9D","#EE1B1B","#EECDCD","#EE9D9D","#EE9D9D","#EECDCD","#EED2D2","#EE9D9D","#EEC1C1","#EE9D9D","#EE9D9D","#EE9D9D","#EE9D9D","#EECDCD","#EE9D9D","#EE9D9D","#EEC1C1","#EE9D9D","#EE9D9D","#EEDBDB","#EE9D9D","#EE9D9D","#EECDCD","#EE9D9D","#EEC1C1","#EE9D9D","#EE9D9D","#EE9D9D","#EECDCD","#EE9D9D","#EE9D9D","#EECDCD","#EE9D9D","#EEC1C1","#EECDCD","#EE9D9D","#EEC1C1","#EECDCD","#EEDCDC","#EED5D5","#EED2D2","#EED2D2"],"title":["Patriot","Braveheart","Gladiator","LOTR","Green.Mile","Sixth.Sense","LOTR1","Harry.Potter1","LOTR2","<B>[1]<\/B><BR><B>{Patriot,<BR>&nbsp;&nbsp;Braveheart}<\/B><BR>&nbsp;&nbsp; => <B>{Gladiator}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 1.43<BR>count = 1<BR>order = 3","<B>[2]<\/B><BR><B>{Gladiator,<BR>&nbsp;&nbsp;Braveheart}<\/B><BR>&nbsp;&nbsp; => <B>{Patriot}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 1.67<BR>count = 1<BR>order = 3","<B>[3]<\/B><BR><B>{LOTR,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{Gladiator}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 1.43<BR>count = 1<BR>order = 3","<B>[4]<\/B><BR><B>{Gladiator,<BR>&nbsp;&nbsp;LOTR}<\/B><BR>&nbsp;&nbsp; => <B>{Green.Mile}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 3","<B>[5]<\/B><BR><B>{Gladiator,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 10<BR>count = 1<BR>order = 3","<B>[6]<\/B><BR><B>{LOTR,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{Sixth.Sense}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 1.67<BR>count = 1<BR>order = 3","<B>[7]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;LOTR}<\/B><BR>&nbsp;&nbsp; => <B>{Green.Mile}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 3","<B>[8]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR}<\/B><BR><BR>support = 0.1<BR>confidence = 0.5<BR>lift = 5<BR>count = 1<BR>order = 3","<B>[9]<\/B><BR><B>{Gladiator,<BR>&nbsp;&nbsp;LOTR}<\/B><BR>&nbsp;&nbsp; => <B>{Sixth.Sense}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 1.67<BR>count = 1<BR>order = 3","<B>[10]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;LOTR}<\/B><BR>&nbsp;&nbsp; => <B>{Gladiator}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 1.43<BR>count = 1<BR>order = 3","<B>[11]<\/B><BR><B>{LOTR1,<BR>&nbsp;&nbsp;Harry.Potter1}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR2}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 3","<B>[12]<\/B><BR><B>{LOTR1,<BR>&nbsp;&nbsp;LOTR2}<\/B><BR>&nbsp;&nbsp; => <B>{Harry.Potter1}<\/B><BR><BR>support = 0.1<BR>confidence = 0.5<BR>lift = 2.5<BR>count = 1<BR>order = 3","<B>[13]<\/B><BR><B>{Harry.Potter1,<BR>&nbsp;&nbsp;LOTR2}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR1}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 3","<B>[14]<\/B><BR><B>{LOTR1,<BR>&nbsp;&nbsp;Harry.Potter1}<\/B><BR>&nbsp;&nbsp; => <B>{Green.Mile}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 3","<B>[15]<\/B><BR><B>{LOTR1,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{Harry.Potter1}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 3","<B>[16]<\/B><BR><B>{Harry.Potter1,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR1}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 3","<B>[17]<\/B><BR><B>{LOTR1,<BR>&nbsp;&nbsp;Harry.Potter1}<\/B><BR>&nbsp;&nbsp; => <B>{Sixth.Sense}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 1.67<BR>count = 1<BR>order = 3","<B>[18]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;LOTR1}<\/B><BR>&nbsp;&nbsp; => <B>{Harry.Potter1}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 3","<B>[19]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;Harry.Potter1}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR1}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 3","<B>[20]<\/B><BR><B>{LOTR1,<BR>&nbsp;&nbsp;LOTR2}<\/B><BR>&nbsp;&nbsp; => <B>{Green.Mile}<\/B><BR><BR>support = 0.1<BR>confidence = 0.5<BR>lift = 2.5<BR>count = 1<BR>order = 3","<B>[21]<\/B><BR><B>{LOTR1,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR2}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 3","<B>[22]<\/B><BR><B>{LOTR2,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR1}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 3","<B>[23]<\/B><BR><B>{LOTR1,<BR>&nbsp;&nbsp;LOTR2}<\/B><BR>&nbsp;&nbsp; => <B>{Sixth.Sense}<\/B><BR><BR>support = 0.1<BR>confidence = 0.5<BR>lift = 0.833<BR>count = 1<BR>order = 3","<B>[24]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;LOTR1}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR2}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 3","<B>[25]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;LOTR2}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR1}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 3","<B>[26]<\/B><BR><B>{LOTR1,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{Sixth.Sense}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 1.67<BR>count = 1<BR>order = 3","<B>[27]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;LOTR1}<\/B><BR>&nbsp;&nbsp; => <B>{Green.Mile}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 3","<B>[28]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR1}<\/B><BR><BR>support = 0.1<BR>confidence = 0.5<BR>lift = 2.5<BR>count = 1<BR>order = 3","<B>[29]<\/B><BR><B>{Harry.Potter1,<BR>&nbsp;&nbsp;LOTR2}<\/B><BR>&nbsp;&nbsp; => <B>{Green.Mile}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 3","<B>[30]<\/B><BR><B>{Harry.Potter1,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR2}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 3","<B>[31]<\/B><BR><B>{LOTR2,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{Harry.Potter1}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 3","<B>[32]<\/B><BR><B>{Harry.Potter1,<BR>&nbsp;&nbsp;LOTR2}<\/B><BR>&nbsp;&nbsp; => <B>{Sixth.Sense}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 1.67<BR>count = 1<BR>order = 3","<B>[33]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;Harry.Potter1}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR2}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 3","<B>[34]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;LOTR2}<\/B><BR>&nbsp;&nbsp; => <B>{Harry.Potter1}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 3","<B>[35]<\/B><BR><B>{Harry.Potter1,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{Sixth.Sense}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 1.67<BR>count = 1<BR>order = 3","<B>[36]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;Harry.Potter1}<\/B><BR>&nbsp;&nbsp; => <B>{Green.Mile}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 3","<B>[37]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{Harry.Potter1}<\/B><BR><BR>support = 0.1<BR>confidence = 0.5<BR>lift = 2.5<BR>count = 1<BR>order = 3","<B>[38]<\/B><BR><B>{LOTR2,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{Sixth.Sense}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 1.67<BR>count = 1<BR>order = 3","<B>[39]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;LOTR2}<\/B><BR>&nbsp;&nbsp; => <B>{Green.Mile}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 5<BR>count = 1<BR>order = 3","<B>[40]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{LOTR2}<\/B><BR><BR>support = 0.1<BR>confidence = 0.5<BR>lift = 2.5<BR>count = 1<BR>order = 3","<B>[41]<\/B><BR><B>{Gladiator,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{Sixth.Sense}<\/B><BR><BR>support = 0.1<BR>confidence = 1<BR>lift = 1.67<BR>count = 1<BR>order = 3","<B>[42]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;Green.Mile}<\/B><BR>&nbsp;&nbsp; => <B>{Gladiator}<\/B><BR><BR>support = 0.1<BR>confidence = 0.5<BR>lift = 0.714<BR>count = 1<BR>order = 3","<B>[43]<\/B><BR><B>{Gladiator,<BR>&nbsp;&nbsp;Patriot}<\/B><BR>&nbsp;&nbsp; => <B>{Sixth.Sense}<\/B><BR><BR>support = 0.4<BR>confidence = 0.667<BR>lift = 1.11<BR>count = 4<BR>order = 3","<B>[44]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;Patriot}<\/B><BR>&nbsp;&nbsp; => <B>{Gladiator}<\/B><BR><BR>support = 0.4<BR>confidence = 1<BR>lift = 1.43<BR>count = 4<BR>order = 3","<B>[45]<\/B><BR><B>{Sixth.Sense,<BR>&nbsp;&nbsp;Gladiator}<\/B><BR>&nbsp;&nbsp; => <B>{Patriot}<\/B><BR><BR>support = 0.4<BR>confidence = 0.8<BR>lift = 1.33<BR>count = 4<BR>order = 3"],"shape":["box","box","box","box","box","box","box","box","box","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle","circle"],"x":[0.638804216658487,1,0.235688760430126,-0.0781246725080501,-0.518735673691376,-0.205847198274593,-0.728764920325218,-0.661958262878829,-0.609516213504555,0.758131454802544,0.686194517985661,-0.175931343554746,-0.164816446866493,-0.257117195687487,-0.304581514743465,-0.215466065775274,-0.395999042116548,0.139019567368852,0.0768526553827535,-0.90066529256731,-0.795558044168844,-0.981526929850688,-0.924643855987505,-0.979975698315086,-1,-0.565300349683002,-0.493865953567777,-0.472196080167151,-0.959996931911472,-0.838572660657941,-0.872562289181749,-0.38990309107237,-0.420054622171733,-0.309000725658466,-0.584565791597711,-0.65706347131689,-0.627435088955749,-0.860731556697052,-0.774895727814791,-0.856815172078693,-0.353944141133297,-0.215103463840251,-0.267844247072018,-0.27394036889825,-0.510674355053715,-0.385441030420829,-0.32535421116891,-0.177054491575678,-0.42995183449356,-0.0739313748307604,-0.00612067461583876,0.388828005520687,0.356071922786265,0.319049903835849],"y":[0.391007867318308,1,0.488770545366339,0.567962823958784,-0.0169236219148353,-0.222945804294717,-0.504281307889849,-0.673958338557384,-0.542363275675972,0.707851553082756,0.805959042899571,0.514943384500868,0.666922123208801,0.628467994129625,0.315062331617784,0.244990441036874,0.366885238113149,0.252682955467378,0.371424568112294,-0.927856446311024,-1,-0.824341416207687,-0.291031660706056,-0.473248905800956,-0.339450955853675,-0.828064338269616,-0.704783043133215,-0.876116884839467,-0.151763001000726,-0.160053158285546,-0.0495435762132476,-0.734438016501534,-0.562166246429943,-0.633722204457782,-0.167631955015079,-0.0403183884128526,0.0789292712781355,-0.578469230354407,-0.318519359406872,-0.436464444596514,-0.897129277082628,-0.732199488485,-0.837591141300975,-0.455932333327452,-0.339575070211188,-0.370206462422151,-0.143422049816344,-0.372899370402656,-0.152941975348067,0.193140409240372,0.0760411552818669,0.121156878777814,0.0260602214875456,0.19327651197348]},"edges":{"from":[1,2,3,2,4,5,3,4,3,5,4,5,6,4,6,5,3,4,6,4,7,8,7,9,8,9,7,8,7,5,8,5,7,8,6,7,6,8,7,9,7,5,9,5,7,9,6,7,6,9,7,5,6,7,6,5,8,9,8,5,9,5,8,9,6,8,6,9,8,5,6,8,6,5,9,5,6,9,6,5,3,5,6,5,3,1,6,1,6,3,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54],"to":[10,10,11,11,12,12,13,13,14,14,15,15,16,16,17,17,18,18,19,19,20,20,21,21,22,22,23,23,24,24,25,25,26,26,27,27,28,28,29,29,30,30,31,31,32,32,33,33,34,34,35,35,36,36,37,37,38,38,39,39,40,40,41,41,42,42,43,43,44,44,45,45,46,46,47,47,48,48,49,49,50,50,51,51,52,52,53,53,54,54,3,1,3,5,4,6,5,4,6,3,9,8,7,5,8,7,6,8,7,5,9,7,6,9,7,6,5,7,5,9,8,6,9,8,6,5,8,6,5,9,6,3,6,3,1],"arrows":["to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to","to"]},"nodesToDataframe":true,"edgesToDataframe":true,"options":{"width":"100%","height":"100%","nodes":{"shape":"dot","scaling":{"label":{"enabled":true}},"physics":false},"manipulation":{"enabled":false},"edges":{"smooth":false},"physics":{"stabilization":false},"interaction":{"hover":true}},"groups":["item","rule"],"width":null,"height":null,"idselection":{"enabled":true,"style":"width: 150px; height: 26px","useLabels":true,"main":"Select by id"},"byselection":{"enabled":false,"style":"width: 150px; height: 26px","multiple":false,"hideColor":"rgba(200,200,200,0.5)","highlight":false},"main":null,"submain":null,"footer":null,"background":"rgba(0, 0, 0, 0)","igraphlayout":{"type":"square"},"tooltipStay":300,"tooltipStyle":"position: fixed;visibility:hidden;padding: 5px;white-space: nowrap;font-family: verdana;font-size:14px;font-color:#000000;background-color: #f5f4ed;-moz-border-radius: 3px;-webkit-border-radius: 3px;border-radius: 3px;border: 1px solid #808074;box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);","highlight":{"enabled":true,"hoverNearest":true,"degree":1,"algorithm":"all","hideColor":"rgba(200,200,200,0.5)","labelOnly":true},"collapse":{"enabled":false,"fit":false,"resetHighlight":true,"clusterOptions":null,"keepCoord":true,"labelSuffix":"(cluster)"}},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="conclusion" class="section level2">
+<h2>Conclusion</h2>
+<p>List of movies we have:</p>
+<p><em>Braveheart, Gladiator, Green.Mile, Harry.Potter1, Harry.Potter2, LOTR, LOTR1, LOTR2, Patriot, Sixth.Sense</em></p>
+<ul>
+<li><p>All movie franchises should be placed together/next to each other</p></li>
+<li><p>The movie <em>Green Mile</em> can be placed near movies like Sixth Sense, Gladiator, and LOTR (The Lord of the Rings) Series</p></li>
+<li><p><em>The Patriot</em> can be placed near movies like Gladiator and Braveheart</p></li>
+<li><p><em>LOTR</em> Series can be placed near Gladiator, Sixth Sense and Green Mile</p></li>
+<li><p><em>Harry Potter</em> Series can be placed next to LOTR Series</p></li>
+</ul>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
