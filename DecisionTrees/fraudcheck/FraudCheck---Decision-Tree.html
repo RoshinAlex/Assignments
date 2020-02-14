@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Fraud Check - Decision Tree</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<head>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-152731784-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-152731784-1');
+  gtag('config', 'G-YHXPVS8TFP');
+</script>
+
+</head>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">>>></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="FraudCheck---Decision-Tree.html">Fraud Check</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Fraud Check - Decision Tree</h1>
+
+</div>
+
+
+<div id="data-preparation" class="section level2">
+<h2><strong>Data Preparation</strong></h2>
+<pre class="r"><code>library(caTools)
+fraudchk &lt;- read.csv(&quot;C:/Users/Alex/Downloads/Data/Fraud_check.csv&quot;)
+
+dplyr::glimpse(fraudchk) # Checking the structure of data using glimpse function in dplyr</code></pre>
+<pre><code>## Observations: 600
+## Variables: 6
+## $ Undergrad       &lt;fct&gt; NO, YES, NO, YES, NO, NO, NO, YES, NO, YES, NO, NO, N…
+## $ Marital.Status  &lt;fct&gt; Single, Divorced, Married, Single, Married, Divorced,…
+## $ Taxable.Income  &lt;int&gt; 68833, 33700, 36925, 50190, 81002, 33329, 83357, 6277…
+## $ City.Population &lt;int&gt; 50047, 134075, 160205, 193264, 27533, 116382, 80890, …
+## $ Work.Experience &lt;int&gt; 10, 18, 30, 15, 28, 0, 8, 3, 12, 4, 19, 6, 14, 16, 13…
+## $ Urban           &lt;fct&gt; YES, YES, YES, YES, NO, NO, YES, YES, YES, YES, YES, …</code></pre>
+<pre class="r"><code>summary(fraudchk) # Summary</code></pre>
+<pre><code>##  Undergrad  Marital.Status Taxable.Income  City.Population  Work.Experience
+##  NO :288   Divorced:189    Min.   :10003   Min.   : 25779   Min.   : 0.00  
+##  YES:312   Married :194    1st Qu.:32872   1st Qu.: 66967   1st Qu.: 8.00  
+##            Single  :217    Median :55075   Median :106494   Median :15.00  
+##                            Mean   :55208   Mean   :108747   Mean   :15.56  
+##                            3rd Qu.:78612   3rd Qu.:150114   3rd Qu.:24.00  
+##                            Max.   :99619   Max.   :199778   Max.   :30.00  
+##  Urban    
+##  NO :298  
+##  YES:302  
+##           
+##           
+##           
+## </code></pre>
+<pre class="r"><code>hist(fraudchk$Taxable.Income, las=1, xaxt=&#39;n&#39;) # Histogram of the variable: Taxable Income</code></pre>
+<p><img src="FraudCheck---Decision-Tree_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<p>We’ll convert the variable <code>Taxable.Income</code> into categorical variable as <code>Risky</code> for values that are less than 30000 and <code>Good</code> otherwise</p>
+<pre class="r"><code># Converting Taxable.Income to Risky and Good
+fraudchk$RiskyGood &lt;- cut(fraudchk$Taxable.Income, 
+                          breaks = c(0,30000,Inf), 
+                          labels = c(&quot;Risky&quot;,&quot;Good&quot;))
+
+head(fraudchk, n=20)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Undergrad"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["Marital.Status"],"name":[2],"type":["fctr"],"align":["left"]},{"label":["Taxable.Income"],"name":[3],"type":["int"],"align":["right"]},{"label":["City.Population"],"name":[4],"type":["int"],"align":["right"]},{"label":["Work.Experience"],"name":[5],"type":["int"],"align":["right"]},{"label":["Urban"],"name":[6],"type":["fctr"],"align":["left"]},{"label":["RiskyGood"],"name":[7],"type":["fctr"],"align":["left"]}],"data":[{"1":"NO","2":"Single","3":"68833","4":"50047","5":"10","6":"YES","7":"Good","_rn_":"1"},{"1":"YES","2":"Divorced","3":"33700","4":"134075","5":"18","6":"YES","7":"Good","_rn_":"2"},{"1":"NO","2":"Married","3":"36925","4":"160205","5":"30","6":"YES","7":"Good","_rn_":"3"},{"1":"YES","2":"Single","3":"50190","4":"193264","5":"15","6":"YES","7":"Good","_rn_":"4"},{"1":"NO","2":"Married","3":"81002","4":"27533","5":"28","6":"NO","7":"Good","_rn_":"5"},{"1":"NO","2":"Divorced","3":"33329","4":"116382","5":"0","6":"NO","7":"Good","_rn_":"6"},{"1":"NO","2":"Divorced","3":"83357","4":"80890","5":"8","6":"YES","7":"Good","_rn_":"7"},{"1":"YES","2":"Single","3":"62774","4":"131253","5":"3","6":"YES","7":"Good","_rn_":"8"},{"1":"NO","2":"Single","3":"83519","4":"102481","5":"12","6":"YES","7":"Good","_rn_":"9"},{"1":"YES","2":"Divorced","3":"98152","4":"155482","5":"4","6":"YES","7":"Good","_rn_":"10"},{"1":"NO","2":"Single","3":"29732","4":"102602","5":"19","6":"YES","7":"Risky","_rn_":"11"},{"1":"NO","2":"Single","3":"61063","4":"94875","5":"6","6":"YES","7":"Good","_rn_":"12"},{"1":"NO","2":"Divorced","3":"11794","4":"148033","5":"14","6":"YES","7":"Risky","_rn_":"13"},{"1":"NO","2":"Married","3":"61830","4":"86649","5":"16","6":"YES","7":"Good","_rn_":"14"},{"1":"NO","2":"Married","3":"64070","4":"57529","5":"13","6":"YES","7":"Good","_rn_":"15"},{"1":"NO","2":"Divorced","3":"69869","4":"107764","5":"29","6":"NO","7":"Good","_rn_":"16"},{"1":"YES","2":"Divorced","3":"24987","4":"34551","5":"29","6":"NO","7":"Risky","_rn_":"17"},{"1":"YES","2":"Married","3":"39476","4":"57194","5":"25","6":"NO","7":"Good","_rn_":"18"},{"1":"YES","2":"Divorced","3":"97957","4":"59269","5":"6","6":"NO","7":"Good","_rn_":"19"},{"1":"NO","2":"Single","3":"10987","4":"126953","5":"30","6":"YES","7":"Risky","_rn_":"20"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code>dplyr::glimpse(fraudchk)</code></pre>
+<pre><code>## Observations: 600
+## Variables: 7
+## $ Undergrad       &lt;fct&gt; NO, YES, NO, YES, NO, NO, NO, YES, NO, YES, NO, NO, N…
+## $ Marital.Status  &lt;fct&gt; Single, Divorced, Married, Single, Married, Divorced,…
+## $ Taxable.Income  &lt;int&gt; 68833, 33700, 36925, 50190, 81002, 33329, 83357, 6277…
+## $ City.Population &lt;int&gt; 50047, 134075, 160205, 193264, 27533, 116382, 80890, …
+## $ Work.Experience &lt;int&gt; 10, 18, 30, 15, 28, 0, 8, 3, 12, 4, 19, 6, 14, 16, 13…
+## $ Urban           &lt;fct&gt; YES, YES, YES, YES, NO, NO, YES, YES, YES, YES, YES, …
+## $ RiskyGood       &lt;fct&gt; Good, Good, Good, Good, Good, Good, Good, Good, Good,…</code></pre>
+<pre class="r"><code># removing Taxable.Income
+fchk &lt;- fraudchk[c(7,1:2,4:6)]
+
+prop.table(table(fchk$RiskyGood))*100 # We don&#39;t have proper balance of data</code></pre>
+<pre><code>## 
+##    Risky     Good 
+## 20.66667 79.33333</code></pre>
+<pre class="r"><code>head(fchk)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["RiskyGood"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["Undergrad"],"name":[2],"type":["fctr"],"align":["left"]},{"label":["Marital.Status"],"name":[3],"type":["fctr"],"align":["left"]},{"label":["City.Population"],"name":[4],"type":["int"],"align":["right"]},{"label":["Work.Experience"],"name":[5],"type":["int"],"align":["right"]},{"label":["Urban"],"name":[6],"type":["fctr"],"align":["left"]}],"data":[{"1":"Good","2":"NO","3":"Single","4":"50047","5":"10","6":"YES","_rn_":"1"},{"1":"Good","2":"YES","3":"Divorced","4":"134075","5":"18","6":"YES","_rn_":"2"},{"1":"Good","2":"NO","3":"Married","4":"160205","5":"30","6":"YES","_rn_":"3"},{"1":"Good","2":"YES","3":"Single","4":"193264","5":"15","6":"YES","_rn_":"4"},{"1":"Good","2":"NO","3":"Married","4":"27533","5":"28","6":"NO","_rn_":"5"},{"1":"Good","2":"NO","3":"Divorced","4":"116382","5":"0","6":"NO","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Splitting data <code>fchk</code> into <code>train_set</code> and <code>test_set</code></p>
+<pre class="r"><code>set.seed(789)
+split = sample.split(fchk$RiskyGood, SplitRatio = 0.80)
+train_set = subset(fchk, split == TRUE) # training data
+test_set = subset(fchk, split == FALSE) # test data</code></pre>
+</div>
+<div id="classification" class="section level2">
+<h2><strong>Classification</strong></h2>
+<p>We’ll create a classifier using C5.0 algorithm</p>
+<pre class="r"><code>library(C50)
+classifier &lt;-  C5.0(x = train_set[-1], 
+                    y = train_set$RiskyGood)
+
+classifier # Tree size shows 1 </code></pre>
+<pre><code>## 
+## Call:
+## C5.0.default(x = train_set[-1], y = train_set$RiskyGood)
+## 
+## Classification Tree
+## Number of samples: 480 
+## Number of predictors: 5 
+## 
+## Tree size: 1 
+## 
+## Non-standard options: attempt to group attributes</code></pre>
+<pre class="r"><code>plot(classifier)</code></pre>
+<p><img src="FraudCheck---Decision-Tree_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre class="r"><code>plot(classifier, type=&quot;simple&quot;)</code></pre>
+<p><img src="FraudCheck---Decision-Tree_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
+<pre class="r"><code>summary(classifier)</code></pre>
+<pre><code>## 
+## Call:
+## C5.0.default(x = train_set[-1], y = train_set$RiskyGood)
+## 
+## 
+## C5.0 [Release 2.07 GPL Edition]      Fri Feb 14 10:25:30 2020
+## -------------------------------
+## 
+## Class specified by attribute `outcome&#39;
+## 
+## Read 480 cases (6 attributes) from undefined.data
+## 
+## Decision tree:
+##  Good (480/99)
+## 
+## 
+## Evaluation on training data (480 cases):
+## 
+##      Decision Tree   
+##    ----------------  
+##    Size      Errors  
+## 
+##       1   99(20.6%)   &lt;&lt;
+## 
+## 
+##     (a)   (b)    &lt;-classified as
+##    ----  ----
+##            99    (a): class Risky
+##           381    (b): class Good
+## 
+## 
+## Time: 0.0 secs</code></pre>
+<pre class="r"><code>#C5imp(classifier)</code></pre>
+<p>This means that our classifier is not able to classify properly using any of the available variables.</p>
+<p>Lets try creating another classifier that uses the variable <code>Taxable.Income</code></p>
+<pre class="r"><code>fchk1 &lt;- fraudchk[c(7,1:6)]
+
+set.seed(789)
+split = sample.split(fchk1$RiskyGood, SplitRatio = 0.80)
+train_set = subset(fchk1, split == TRUE) # training data
+test_set = subset(fchk1, split == FALSE) # test data
+
+classifier &lt;-  C5.0(x = train_set[-1], 
+                    y = train_set$RiskyGood)
+
+classifier # Tree size shows 2</code></pre>
+<pre><code>## 
+## Call:
+## C5.0.default(x = train_set[-1], y = train_set$RiskyGood)
+## 
+## Classification Tree
+## Number of samples: 480 
+## Number of predictors: 6 
+## 
+## Tree size: 2 
+## 
+## Non-standard options: attempt to group attributes</code></pre>
+<pre class="r"><code>summary(classifier) # To see more details on the Classifier</code></pre>
+<pre><code>## 
+## Call:
+## C5.0.default(x = train_set[-1], y = train_set$RiskyGood)
+## 
+## 
+## C5.0 [Release 2.07 GPL Edition]      Fri Feb 14 10:25:30 2020
+## -------------------------------
+## 
+## Class specified by attribute `outcome&#39;
+## 
+## Read 480 cases (7 attributes) from undefined.data
+## 
+## Decision tree:
+## 
+## Taxable.Income &lt;= 29944: Risky (99)
+## Taxable.Income &gt; 29944: Good (381)
+## 
+## 
+## Evaluation on training data (480 cases):
+## 
+##      Decision Tree   
+##    ----------------  
+##    Size      Errors  
+## 
+##       2    0( 0.0%)   &lt;&lt;
+## 
+## 
+##     (a)   (b)    &lt;-classified as
+##    ----  ----
+##      99          (a): class Risky
+##           381    (b): class Good
+## 
+## 
+##  Attribute usage:
+## 
+##  100.00% Taxable.Income
+## 
+## 
+## Time: 0.0 secs</code></pre>
+<pre class="r"><code>plot(classifier) # Decision Tree based on the Classifier</code></pre>
+<p><img src="FraudCheck---Decision-Tree_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<pre class="r"><code>C5imp(classifier) # Usage of each variable by the Classifier</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Overall"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"100","_rn_":"Taxable.Income"},{"1":"0","_rn_":"Undergrad"},{"1":"0","_rn_":"Marital.Status"},{"1":"0","_rn_":"City.Population"},{"1":"0","_rn_":"Work.Experience"},{"1":"0","_rn_":"Urban"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>This means that the only variable that is used by the classifier is <code>Taxable.Income</code></p>
+<p>Rest of the variables do not contribute anything in the decision making.</p>
+<p>Other than the variable <code>Taxable.Income</code> based on which we are supposed to create a decision tree, we cannot create a good Decision Tree Classifier due to insufficient variables that can contribute to the decision making of the classifier.</p>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

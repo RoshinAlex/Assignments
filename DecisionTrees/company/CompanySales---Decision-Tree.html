@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+
+
+<title>Company Sales - Decision Tree</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<head>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-152731784-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-152731784-1');
+  gtag('config', 'G-YHXPVS8TFP');
+</script>
+
+</head>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">>>></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="CompanySales---Decision-Tree.html">Company Data</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+<div class="btn-group pull-right">
+<button type="button" class="btn btn-default btn-xs dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Company Sales - Decision Tree</h1>
+
+</div>
+
+
+<div id="data-preparation" class="section level2">
+<h2><strong>Data Preparation</strong></h2>
+<pre class="r"><code>library(caTools)
+library(C50)
+
+company &lt;- read.csv(&quot;C:/Users/Alex/Downloads/Data/Company_Data.csv&quot;)
+
+str(company) # Structure of dataset</code></pre>
+<pre><code>## &#39;data.frame&#39;:    400 obs. of  11 variables:
+##  $ Sales      : num  9.5 11.22 10.06 7.4 4.15 ...
+##  $ CompPrice  : int  138 111 113 117 141 124 115 136 132 132 ...
+##  $ Income     : int  73 48 35 100 64 113 105 81 110 113 ...
+##  $ Advertising: int  11 16 10 4 3 13 0 15 0 0 ...
+##  $ Population : int  276 260 269 466 340 501 45 425 108 131 ...
+##  $ Price      : int  120 83 80 97 128 72 108 120 124 124 ...
+##  $ ShelveLoc  : Factor w/ 3 levels &quot;Bad&quot;,&quot;Good&quot;,&quot;Medium&quot;: 1 2 3 3 1 1 3 2 3 3 ...
+##  $ Age        : int  42 65 59 55 38 78 71 67 76 76 ...
+##  $ Education  : int  17 10 12 14 13 16 15 10 10 17 ...
+##  $ Urban      : Factor w/ 2 levels &quot;No&quot;,&quot;Yes&quot;: 2 2 2 2 2 1 2 2 1 1 ...
+##  $ US         : Factor w/ 2 levels &quot;No&quot;,&quot;Yes&quot;: 2 2 2 2 1 2 1 2 1 2 ...</code></pre>
+<pre class="r"><code>summary(company) # Summary of variables</code></pre>
+<pre><code>##      Sales          CompPrice       Income        Advertising    
+##  Min.   : 0.000   Min.   : 77   Min.   : 21.00   Min.   : 0.000  
+##  1st Qu.: 5.390   1st Qu.:115   1st Qu.: 42.75   1st Qu.: 0.000  
+##  Median : 7.490   Median :125   Median : 69.00   Median : 5.000  
+##  Mean   : 7.496   Mean   :125   Mean   : 68.66   Mean   : 6.635  
+##  3rd Qu.: 9.320   3rd Qu.:135   3rd Qu.: 91.00   3rd Qu.:12.000  
+##  Max.   :16.270   Max.   :175   Max.   :120.00   Max.   :29.000  
+##    Population        Price        ShelveLoc        Age          Education   
+##  Min.   : 10.0   Min.   : 24.0   Bad   : 96   Min.   :25.00   Min.   :10.0  
+##  1st Qu.:139.0   1st Qu.:100.0   Good  : 85   1st Qu.:39.75   1st Qu.:12.0  
+##  Median :272.0   Median :117.0   Medium:219   Median :54.50   Median :14.0  
+##  Mean   :264.8   Mean   :115.8                Mean   :53.32   Mean   :13.9  
+##  3rd Qu.:398.5   3rd Qu.:131.0                3rd Qu.:66.00   3rd Qu.:16.0  
+##  Max.   :509.0   Max.   :191.0                Max.   :80.00   Max.   :18.0  
+##  Urban       US     
+##  No :118   No :142  
+##  Yes:282   Yes:258  
+##                     
+##                     
+##                     
+## </code></pre>
+<pre class="r"><code>names(company) # to see the different variable names</code></pre>
+<pre><code>##  [1] &quot;Sales&quot;       &quot;CompPrice&quot;   &quot;Income&quot;      &quot;Advertising&quot; &quot;Population&quot; 
+##  [6] &quot;Price&quot;       &quot;ShelveLoc&quot;   &quot;Age&quot;         &quot;Education&quot;   &quot;Urban&quot;      
+## [11] &quot;US&quot;</code></pre>
+<pre class="r"><code>hist(company$Sales) # histogram of Sales Variable</code></pre>
+<p><img src="CompanySales---Decision-Tree_files/figure-html/unnamed-chunk-1-1.png" width="672" /></p>
+<pre class="r"><code>table(company$Sales&gt;9) # we&#39;ll see how many of the observations have sales greater than 9</code></pre>
+<pre><code>## 
+## FALSE  TRUE 
+##   287   113</code></pre>
+<p>There are 113 observations with Sales greater than 9</p>
+<p>We’ll convert the Sales variable into categorical variable as High and Low.<br />
+Observations with Sales greater than 9 will be considered ‘High’ and those less than 9 will be considered ‘Low’.</p>
+<p>We’ll save the new categorical variable as <code>SalesHiLo</code></p>
+<pre class="r"><code>company$SalesHiLo &lt;- cut(company$Sales, breaks = c(0,9,Inf), labels = c(&quot;Low&quot;,&quot;High&quot;))
+
+company &lt;- company[c(1,12,2:11)]
+
+head(company)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Sales"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["SalesHiLo"],"name":[2],"type":["fctr"],"align":["left"]},{"label":["CompPrice"],"name":[3],"type":["int"],"align":["right"]},{"label":["Income"],"name":[4],"type":["int"],"align":["right"]},{"label":["Advertising"],"name":[5],"type":["int"],"align":["right"]},{"label":["Population"],"name":[6],"type":["int"],"align":["right"]},{"label":["Price"],"name":[7],"type":["int"],"align":["right"]},{"label":["ShelveLoc"],"name":[8],"type":["fctr"],"align":["left"]},{"label":["Age"],"name":[9],"type":["int"],"align":["right"]},{"label":["Education"],"name":[10],"type":["int"],"align":["right"]},{"label":["Urban"],"name":[11],"type":["fctr"],"align":["left"]},{"label":["US"],"name":[12],"type":["fctr"],"align":["left"]}],"data":[{"1":"9.50","2":"High","3":"138","4":"73","5":"11","6":"276","7":"120","8":"Bad","9":"42","10":"17","11":"Yes","12":"Yes","_rn_":"1"},{"1":"11.22","2":"High","3":"111","4":"48","5":"16","6":"260","7":"83","8":"Good","9":"65","10":"10","11":"Yes","12":"Yes","_rn_":"2"},{"1":"10.06","2":"High","3":"113","4":"35","5":"10","6":"269","7":"80","8":"Medium","9":"59","10":"12","11":"Yes","12":"Yes","_rn_":"3"},{"1":"7.40","2":"Low","3":"117","4":"100","5":"4","6":"466","7":"97","8":"Medium","9":"55","10":"14","11":"Yes","12":"Yes","_rn_":"4"},{"1":"4.15","2":"Low","3":"141","4":"64","5":"3","6":"340","7":"128","8":"Bad","9":"38","10":"13","11":"Yes","12":"No","_rn_":"5"},{"1":"10.81","2":"High","3":"124","4":"113","5":"13","6":"501","7":"72","8":"Bad","9":"78","10":"16","11":"No","12":"Yes","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code>cmpy &lt;- company[c(2:12)]
+
+str(cmpy)</code></pre>
+<pre><code>## &#39;data.frame&#39;:    400 obs. of  11 variables:
+##  $ SalesHiLo  : Factor w/ 2 levels &quot;Low&quot;,&quot;High&quot;: 2 2 2 1 1 2 1 2 1 1 ...
+##  $ CompPrice  : int  138 111 113 117 141 124 115 136 132 132 ...
+##  $ Income     : int  73 48 35 100 64 113 105 81 110 113 ...
+##  $ Advertising: int  11 16 10 4 3 13 0 15 0 0 ...
+##  $ Population : int  276 260 269 466 340 501 45 425 108 131 ...
+##  $ Price      : int  120 83 80 97 128 72 108 120 124 124 ...
+##  $ ShelveLoc  : Factor w/ 3 levels &quot;Bad&quot;,&quot;Good&quot;,&quot;Medium&quot;: 1 2 3 3 1 1 3 2 3 3 ...
+##  $ Age        : int  42 65 59 55 38 78 71 67 76 76 ...
+##  $ Education  : int  17 10 12 14 13 16 15 10 10 17 ...
+##  $ Urban      : Factor w/ 2 levels &quot;No&quot;,&quot;Yes&quot;: 2 2 2 2 2 1 2 2 1 1 ...
+##  $ US         : Factor w/ 2 levels &quot;No&quot;,&quot;Yes&quot;: 2 2 2 2 1 2 1 2 1 2 ...</code></pre>
+<p>Splitting data <code>cmpy</code> into <code>train_set</code> and <code>test_set</code></p>
+<pre class="r"><code>set.seed(789)
+split &lt;- sample.split(cmpy$SalesHiLo, SplitRatio = 0.80)
+train_set &lt;- subset(cmpy, split == TRUE)
+test_set &lt;- subset(cmpy, split == FALSE)</code></pre>
+</div>
+<div id="classification-decision-tree-plot" class="section level2">
+<h2><strong>Classification &amp; Decision Tree Plot</strong></h2>
+<p>We’ll create a classifier using C5.0 algorithm</p>
+<pre class="r"><code>classifier &lt;- C5.0(x = train_set[-1] , 
+                 y = train_set$SalesHiLo, 
+                 control = C5.0Control(minCases = 10))
+
+classifier</code></pre>
+<pre><code>## 
+## Call:
+## C5.0.default(x = train_set[-1], y = train_set$SalesHiLo, control
+##  = C5.0Control(minCases = 10))
+## 
+## Classification Tree
+## Number of samples: 319 
+## Number of predictors: 10 
+## 
+## Tree size: 10 
+## 
+## Non-standard options: attempt to group attributes, minimum number of cases: 10</code></pre>
+<pre class="r"><code>plot(classifier) # Decision Tree based on classifier</code></pre>
+<p><img src="CompanySales---Decision-Tree_files/figure-html/unnamed-chunk-4-1.png" width="1248" /></p>
+<pre class="r"><code>plot(classifier, type=&quot;simple&quot;) # Simple version of the decision tree</code></pre>
+<p><img src="CompanySales---Decision-Tree_files/figure-html/unnamed-chunk-4-2.png" width="1248" /></p>
+<pre class="r"><code>summary(classifier) # we can use summary to get more details on the classifier</code></pre>
+<pre><code>## 
+## Call:
+## C5.0.default(x = train_set[-1], y = train_set$SalesHiLo, control
+##  = C5.0Control(minCases = 10))
+## 
+## 
+## C5.0 [Release 2.07 GPL Edition]      Fri Feb 14 10:22:32 2020
+## -------------------------------
+## 
+## Class specified by attribute `outcome&#39;
+## 
+## Read 319 cases (11 attributes) from undefined.data
+## 
+## Decision tree:
+## 
+## ShelveLoc = Good:
+## :...Advertising &gt; 13: High (15)
+## :   Advertising &lt;= 13:
+## :   :...Price &lt;= 109: High (17/1)
+## :       Price &gt; 109:
+## :       :...Income &lt;= 43: Low (11)
+## :           Income &gt; 43: High (24/10)
+## ShelveLoc in {Bad,Medium}:
+## :...Price &lt;= 89:
+##     :...ShelveLoc = Bad: Low (9/3)
+##     :   ShelveLoc = Medium: High (20/5)
+##     Price &gt; 89:
+##     :...Advertising &lt;= 6: Low (124/4)
+##         Advertising &gt; 6:
+##         :...Price &gt; 124: Low (40/2)
+##             Price &lt;= 124:
+##             :...CompPrice &lt;= 130: Low (46/10)
+##                 CompPrice &gt; 130: High (13/2)
+## 
+## 
+## Evaluation on training data (319 cases):
+## 
+##      Decision Tree   
+##    ----------------  
+##    Size      Errors  
+## 
+##      10   37(11.6%)   &lt;&lt;
+## 
+## 
+##     (a)   (b)    &lt;-classified as
+##    ----  ----
+##     211    18    (a): class Low
+##      19    71    (b): class High
+## 
+## 
+##  Attribute usage:
+## 
+##  100.00% ShelveLoc
+##   95.30% Price
+##   90.91% Advertising
+##   18.50% CompPrice
+##   10.97% Income
+## 
+## 
+## Time: 0.0 secs</code></pre>
+<p>To see which variables are causing high sale, we can check each variable’s usage in the classifier</p>
+<pre class="r"><code>C5imp(classifier)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["Overall"],"name":[1],"type":["dbl"],"align":["right"]}],"data":[{"1":"100.00","_rn_":"ShelveLoc"},{"1":"95.30","_rn_":"Price"},{"1":"90.91","_rn_":"Advertising"},{"1":"18.50","_rn_":"CompPrice"},{"1":"10.97","_rn_":"Income"},{"1":"0.00","_rn_":"Population"},{"1":"0.00","_rn_":"Age"},{"1":"0.00","_rn_":"Education"},{"1":"0.00","_rn_":"Urban"},{"1":"0.00","_rn_":"US"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>We can clearly see that the following variables are not at all contributing to decision making of the classifier:</p>
+<p>– Population</p>
+<p>– Age</p>
+<p>– Education</p>
+<p>– Urban</p>
+<p>– US</p>
+</div>
+<div id="prediction" class="section level2">
+<h2><strong>Prediction</strong></h2>
+<pre class="r"><code>y_pred  &lt;-  predict(classifier, test_set[-1])</code></pre>
+<div id="confusion-martrix-accuracy" class="section level3">
+<h3>Confusion Martrix &amp; Accuracy</h3>
+<pre class="r"><code># Confusion Matrix 
+cm &lt;- table(test_set[, 1], y_pred, dnn = c(&quot;Actual Sales&quot;,&quot;Predicted Sales&quot;))
+
+cm</code></pre>
+<pre><code>##             Predicted Sales
+## Actual Sales Low High
+##         Low   50    7
+##         High   8   15</code></pre>
+<pre class="r"><code># Accuracy
+
+accuracy_Test &lt;- sum(diag(cm)) / sum(cm)
+accuracy_Test # 81.25%</code></pre>
+<pre><code>## [1] 0.8125</code></pre>
+<pre class="r"><code># Or we can get a more detailed report on the prediction using confusionMatrix function
+library(caret)
+confusionMatrix(cm)</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##             Predicted Sales
+## Actual Sales Low High
+##         Low   50    7
+##         High   8   15
+##                                           
+##                Accuracy : 0.8125          
+##                  95% CI : (0.7097, 0.8911)
+##     No Information Rate : 0.725           
+##     P-Value [Acc &gt; NIR] : 0.0479          
+##                                           
+##                   Kappa : 0.5363          
+##                                           
+##  Mcnemar&#39;s Test P-Value : 1.0000          
+##                                           
+##             Sensitivity : 0.8621          
+##             Specificity : 0.6818          
+##          Pos Pred Value : 0.8772          
+##          Neg Pred Value : 0.6522          
+##              Prevalence : 0.7250          
+##          Detection Rate : 0.6250          
+##    Detection Prevalence : 0.7125          
+##       Balanced Accuracy : 0.7719          
+##                                           
+##        &#39;Positive&#39; Class : Low             
+## </code></pre>
+<p>We get an accuracy of 81.25%</p>
+</div>
+<div id="boosting" class="section level3">
+<h3><strong>Boosting</strong></h3>
+<p>We can slighlty improve the classifier using boosting to get an accuracy of 85%</p>
+<pre class="r"><code>classifier_boosting &lt;- C5.0(x = train_set[-1] , 
+                          y = train_set$SalesHiLo, 
+                          control = C5.0Control(minCases = 10), 
+                          trials = 20)
+
+
+y_pred_boost &lt;- predict(classifier_boosting, test_set[-1])
+
+cm2 &lt;- table(test_set[, 1], y_pred_boost, dnn = c(&quot;Actual Sales&quot;,&quot;Predicted Sales&quot;))
+
+cm2</code></pre>
+<pre><code>##             Predicted Sales
+## Actual Sales Low High
+##         Low   56    1
+##         High  11   12</code></pre>
+<pre class="r"><code>accuracy_Test &lt;- sum(diag(cm2)) / sum(cm2)
+
+accuracy_Test</code></pre>
+<pre><code>## [1] 0.85</code></pre>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("show" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
