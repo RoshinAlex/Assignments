@@ -3,5 +3,5 @@
 
 | **\#** | **Dataset**           | **Link**                                                                  |
 |-------|-----------------------|---------------------------------------------------------------------------|
-| 1     | glass.csv             | [->>->>](https://roshinalex.github.io/Assignments/)          |
-| 2     | Zoo.csv               | [->>->>](https://roshinalex.github.io/Assignments/)          |
+| 1     | glass.csv             | [->>->>](https://roshinalex.github.io/Assignments/KNN/glass)          |
+| 2     | Zoo.csv               | [->>->>](https://roshinalex.github.io/Assignments/KNN/zoo)          |
